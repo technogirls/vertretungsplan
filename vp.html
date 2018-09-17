@@ -19,7 +19,7 @@ $(document).ready(function() {
 	 var fuerKlasse = href.substring(href.indexOf("=")+1,href.length);
 	 console.log(fuerKlasse)
 	 $("h1").text($("h1").text()+" "+fuerKlasse)
-     var url = "https://vertretungsplan.bebe-dresden.de/vplan/vdaten/VplanKl20180918.xml"
+     var url = "https://vertretungsplan.bebe-dresden.de/vplan/vdaten/VplanKl.xml" // 20180918
      $.get(url, function(error,x, data) {
      var text = $.parseXML( data.responseText );
      var klassen = $(text).find("aenderungk")
