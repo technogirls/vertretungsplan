@@ -1,0 +1,48 @@
+<html>
+
+<head>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+<!-- https://afeld.github.io/emoji-css/ -->
+<link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
+
+
+<script type="text/javascript">
+var lehrer = {
+"DEVA":"Hr. Devantier",
+"BÄR":"Fr. Bär", "BEY":"Fr. Beykirch"}
+
+//, DEVA, EIS, FISH, HÄNS, JOHN, LIND, MKAY, OSC, STR, TASY"
+
+$(document).ready(function() {
+     console.log(document.location.href)
+	 var href = document.location.href
+	 var fuerKlasse = href.substring(href.indexOf("=")+1,href.length);
+	 console.log(fuerKlasse)
+	 $("h1").text($("h1").text()+" "+fuerKlasse)
+     var url = "https://vertretungsplan.bebe-dresden.de/vplan/vdaten/VplanKl20180918.xml"
+     $.get(url, function(error,x, data) {
+     var text = $.parseXML( data.responseText );
+     var klassen = $(text).find("aenderungk")
+     var plan = $(text).find("haupt aktion")
+     plan.each(function(){
+	    var xml = $(this);
+	    function e(name) { return xml.find(name).text() }
+        var klasse = e("klasse")
+		if (fuerKlasse === undefined || klasse == fuerKlasse) {
+           $("#liste").append($("<li>").text(e("stunde")+". "+e("fach")+" in "+e("raum")+" "+" bei "+lehrer[e("lehrer")]+" "+e("info")));   
+		}
+     })
+   })
+})
+
+</script>
+
+</head>
+
+<body>
+<i class="em em-adult"></i>
+<h1>Vertretung f&uuml;r </h1>
+<ul id="liste">
+</ul>
+</body>
+</html>
