@@ -8,8 +8,46 @@
 
 <script type="text/javascript">
 var lehrer = {
+"":"Fr. Anger",
+"AGM":"Hr. Angermann",
+"":"Hr. Anton",
+"BACM":"Fr. Bachmann",
+"BALD":"Fr.Baldschus",
+"BÄR":"Fr. Bär",
+"BEGS":"Fr. Bengsch",
+"BERN":"Fr.Bernhardt",
+"BEY":"Fr. Beykirch",
+"BLE":"Hr. Blechschmidt",
+"":"Hr. Böhme",
+"BÖTT":"Fr. Böttcher",
+"BRAN":"Fr. Branzk"
+"BRE":"Hr. Brestrich",
+"DFÜR":"Hr. Fürstenau",
 "DEVA":"Hr. Devantier",
-"BÄR":"Fr. Bär", "BEY":"Fr. Beykirch"}
+"DOM":"Fr. Dombrowski",
+"EIS":"Fr. Eisbein",
+"FAB":"Hr. Fabianski",
+"FERE":"Hr. Ferencz",
+"FIDL":"Hr. Fiedler",
+"FISH":"Hr. Fischer",
+"FOL":"Fr. Folprecht",
+"":" Forkel",
+"FORS":" Forster",
+"GOCK":"Gockisch",
+"GROß":"Fr. Große",
+"":"Guttowski",
+"":"Fr. Häberlein",
+"":"Fr. Hänsel",
+"":"Fr. Härter",
+"":"Hr. Hegewald",
+"":" Hennig",
+"":"Fr. Herrmann",
+"":"Fr. Herzog",
+"":"Fr. Höllige",
+"":"Fr. Hornig",
+"":"Fr. Hvolka",
+"":""
+}
 
 //, DEVA, EIS, FISH, HÄNS, JOHN, LIND, MKAY, OSC, STR, TASY"
 
@@ -19,7 +57,7 @@ $(document).ready(function() {
 	 var fuerKlasse = href.substring(href.indexOf("=")+1,href.length);
 	 console.log(fuerKlasse)
 	 $("h1").text($("h1").text()+" "+fuerKlasse)
-     var url = "https://vertretungsplan.bebe-dresden.de/vplan/vdaten/VplanKl.xml" // 20180918
+     var url = "https://vertretungsplan.bebe-dresden.de/vplan/vdaten/VplanKl.xml"
      $.get(url, function(error,x, data) {
      var text = $.parseXML( data.responseText );
      var klassen = $(text).find("aenderungk")
@@ -40,7 +78,6 @@ $(document).ready(function() {
 </head>
 
 <body>
-<i class="em em-adult"></i>
 <h1>Vertretung f&uuml;r </h1>
 <ul id="liste">
 </ul>
