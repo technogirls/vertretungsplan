@@ -52,6 +52,8 @@ var lehrer = {
 //, DEVA, EIS, FISH, HÄNS, JOHN, LIND, MKAY, OSC, STR, TASY"
 
 $(document).ready(function() {
+     var xml = undefined;
+     function e(name) { return $(xml).find(name).text(); }
      console.log(document.location.href)
 	 var href = document.location.href
 	 var fuerKlasse = href.substring(href.indexOf("=")+1,href.length);
@@ -60,14 +62,22 @@ $(document).ready(function() {
      var url = "https://vertretungsplan.bebe-dresden.de/vplan/vdaten/VplanKl.xml"
      $.get(url, function(error,x, data) {
      var text = $.parseXML( data.responseText );
-     var klassen = $(text).find("aenderungk")
-     var plan = $(text).find("haupt aktion")
+	 xml = text;
+     var abwesendklassen = e("abwesendk");
+	 var klassen = e("aenderungk");
+	 var abwesendlehrer = e("abwesendl");
+	 var lehrer = e("aenderungl");
+	 var tag = e("titel");
+	 $("#tag").text(tag);
+	 $("#lehrer").text("Lehrer:" + lehrer);
+     var plan = $(xml).find("haupt aktion");
      plan.each(function(){
 	    var xml = $(this);
 	    function e(name) { return xml.find(name).text() }
         var klasse = e("klasse")
 		if (fuerKlasse === undefined || klasse == fuerKlasse) {
-           $("#liste").append($("<li>").text(e("stunde")+". "+e("fach")+" in "+e("raum")+" "+" bei "+lehrer[e("lehrer")]+" "+e("info")));   
+		   var name = lehrer[e("lehrer")] || e("lehrer");
+           $("#liste").append($("<li>").text(e("stunde")+". "+e("fach")+" in "+e("raum")+" "+" bei "+name+" "+e("info")));   
 		}
      })
    })
@@ -75,11 +85,16 @@ $(document).ready(function() {
 
 </script>
 
+<style type="text/css">
+</style>
 </head>
 
 <body>
 <h1>Vertretung f&uuml;r </h1>
+<h2 id="tag">Tag: </h2>
 <ul id="liste">
 </ul>
+<div id="lehrer">Lehrer: </div>
+<div id="klassen">Klassen: </div>
 </body>
 </html>
