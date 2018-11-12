@@ -78,7 +78,8 @@ var abkuerzungen = {
 			var xml = $(this);
 			function e(name) { return xml.find(name).text() }
 			var klasse = e("klasse")
-			if (fuerKlasse === undefined || klasse == fuerKlasse) {
+			console.log(klasse);
+			if (fuerKlasse === undefined || klasse.indexOf(fuerKlasse) != -1) {
 			   var name = lehrer[e("lehrer")] || e("lehrer");
 			   name = abkuerzungen[name] || name;
                            var info = e("info");
