@@ -1,16 +1,17 @@
 <html>
 
 <head>
+<meta charset="utf-8"> 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
 <!-- https://afeld.github.io/emoji-css/ -->
 <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
 
 
 <script type="text/javascript">
-var lehrer = {
-"":"Fr. Anger",
+var abkuerzungen = {
+"ANG":"Fr. Anger",
 "AGM":"Hr. Angermann",
-"":"Hr. Anton",
+"ANT":"Hr. Anton",
 "BACM":"Fr. Bachmann",
 "BALD":"Fr.Baldschus",
 "BÄR":"Fr. Bär",
@@ -18,7 +19,7 @@ var lehrer = {
 "BERN":"Fr.Bernhardt",
 "BEY":"Fr. Beykirch",
 "BLE":"Hr. Blechschmidt",
-"":"Hr. Böhme",
+"BOEHM":"Hr. Böhme",
 "BÖTT":"Fr. Böttcher",
 "BRAN":"Fr. Branzk",
 "BRE":"Hr. Brestrich",
@@ -31,25 +32,70 @@ var lehrer = {
 "FIDL":"Hr. Fiedler",
 "FISH":"Hr. Fischer",
 "FOL":"Fr. Folprecht",
-"":" Forkel",
+/*"":" Forkel",*/
 "FORS":" Forster",
 "GOCK":"Gockisch",
 "GROß":"Fr. Große",
-"":"Guttowski",
-"":"Fr. Häberlein",
-"":"Fr. Hänsel",
-"":"Fr. Härter",
-"":"Hr. Hegewald",
-"":" Hennig",
-"":"Fr. Herrmann",
-"":"Fr. Herzog",
-"":"Fr. Höllige",
-"":"Fr. Hornig",
-"":"Fr. Hvolka",
-"":""
+/*"":"Guttowski",*/
+"HAEBL":"Fr. Häberlein",
+"HAENS":"Fr. Hänsel",
+"HAERT":"Fr. Härter",
+"HEG":"Hr. Hegewald",
+"HENN":" Hennig",
+"HERR":"Fr. Herrmann",
+"HERZ":"Fr. Herzog",
+"HOELL":"Fr. Höllige",
+"HÖLL":"Fr. Höllige",
+"HORG":"Fr. Hornig",
+/*"":"Fr. Hvolka",
+"":""*/
 }
 
 //, DEVA, EIS, FISH, HÄNS, JOHN, LIND, MKAY, OSC, STR, TASY"
+
+	 function fuerTag(weiter,fuerKlasse) {
+	 var heute=new Date()
+	 var d=new Date()
+	 d.setDate(heute.getDate()+weiter)
+	 var suffix=""+d.getFullYear()+(d.getMonth()+1)+d.getDate()
+     var url = "https://vertretungsplan.bebe-dresden.de/vplan/vdaten/VplanKl"+suffix+".xml"
+     $.get(url, function(error,x, data) {
+         function e(name) { return $(xml).find(name).text(); }
+
+     	 var text = $.parseXML( data.responseText );
+		 xml = text;
+		 
+		 var abwesendklassen = e("abwesendk");
+		 var klassen = e("aenderungk");
+		 var abwesendlehrer = e("abwesendl");
+		 var lehrer = e("aenderungl");
+		 var tag = e("titel");
+		 
+		 
+		 $("#liste").append($("<tr>").append($("<td colspan=\"5\">").text(tag)));
+		 var plan = $(xml).find("haupt aktion");
+		 plan.each(function(){
+			var xml = $(this);
+			function e(name) { return xml.find(name).text() }
+			var klasse = e("klasse")
+			if (fuerKlasse === undefined || klasse == fuerKlasse) {
+			   var name = lehrer[e("lehrer")] || e("lehrer");
+			   name = abkuerzungen[name] || name;
+                           var info = e("info");
+			   for (kuerzel in abkuerzungen) {
+  			      info = info.replace(kuerzel, abkuerzungen[kuerzel])
+			   }
+			   var zeile = [e("stunde"),e("fach"),e("raum"),name,info];
+			   var zellen = zeile.map(z => $("<td>").text(z));
+			   console.log(zellen);
+			   $("#liste").append($("<tr>").append(zellen));   
+			}
+		 });
+	 })
+	 }
+
+	 
+
 
 $(document).ready(function() {
      var xml = undefined;
@@ -59,42 +105,38 @@ $(document).ready(function() {
 	 var fuerKlasse = href.substring(href.indexOf("=")+1,href.length);
 	 console.log(fuerKlasse)
 	 $("h1").text($("h1").text()+" "+fuerKlasse)
-     var url = "https://vertretungsplan.bebe-dresden.de/vplan/vdaten/VplanKl.xml"
-     $.get(url, function(error,x, data) {
-     var text = $.parseXML( data.responseText );
-	 xml = text;
-     var abwesendklassen = e("abwesendk");
-	 var klassen = e("aenderungk");
-	 var abwesendlehrer = e("abwesendl");
-	 var lehrer = e("aenderungl");
-	 var tag = e("titel");
-	 $("#tag").text(tag);
-	 $("#lehrer").text("Lehrer:" + lehrer);
-     var plan = $(xml).find("haupt aktion");
-     plan.each(function(){
-	    var xml = $(this);
-	    function e(name) { return xml.find(name).text() }
-        var klasse = e("klasse")
-		if (fuerKlasse === undefined || klasse == fuerKlasse) {
-		   var name = lehrer[e("lehrer")] || e("lehrer");
-           $("#liste").append($("<li>").text(e("stunde")+". "+e("fach")+" in "+e("raum")+" "+" bei "+name+" "+e("info")));   
-		}
-     })
-   })
+	 fuerTag(0,fuerKlasse)
+	 fuerTag(1,fuerKlasse)
+	 fuerTag(2,fuerKlasse)
+	 fuerTag(3,fuerKlasse)
+	 fuerTag(4,fuerKlasse)
 })
 
 </script>
 
 <style type="text/css">
+body {
+  font-size: 2rem;
+  font-family: "Comic-Sans";
+}
+#liste, td, tr, th {
+  border: 1px solid black;
+}
 </style>
 </head>
 
 <body>
 <h1>Vertretung f&uuml;r </h1>
-<h2 id="tag">Tag: </h2>
-<ul id="liste">
-</ul>
-<div id="lehrer">Lehrer: </div>
-<div id="klassen">Klassen: </div>
+
+<table id="liste">
+<tr>
+<th>Stunde</th>
+<th>Fach</th>
+<th>Raum</th>
+<th>Lehrer</th>
+<th>Notiz</th>
+</tr>
+</table>
+
 </body>
 </html>
