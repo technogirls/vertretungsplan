@@ -49,16 +49,17 @@ var abkuerzungen = {
 "HORG":"Fr. Hornig",
 /*"":"Fr. Hvolka",
 "":""*/
-}
+};
 
 //, DEVA, EIS, FISH, HÄNS, JOHN, LIND, MKAY, OSC, STR, TASY"
 
 	 function fuerTag(weiter,fuerKlasse) {
-	 var heute=new Date()
-	 var d=new Date()
-	 d.setDate(heute.getDate()+weiter)
-	 var suffix=""+d.getFullYear()+(d.getMonth()+1)+d.getDate()
-     var url = "https://vertretungsplan.bebe-dresden.de/vplan/vdaten/VplanKl"+suffix+".xml"
+	 var heute=new Date();
+	 var d=new Date();
+	 d.setDate(heute.getDate()+weiter);
+	 var suffix=""+d.getFullYear()+(d.getMonth()+1)+d.getDate();
+     var url = "https://vertretungsplan.bebe-dresden.de/vplan/vdaten/VplanKl"+suffix+".xml";
+ console.log(url);
      $.get(url, function(error,x, data) {
          function e(name) { return $(xml).find(name).text(); }
 
@@ -70,21 +71,22 @@ var abkuerzungen = {
 		 var abwesendlehrer = e("abwesendl");
 		 var lehrer = e("aenderungl");
 		 var tag = e("titel");
-		 
+		 console.log(tag);
 		 
 		 $("#liste").append($("<tr>").append($("<td colspan=\"5\">").text(tag)));
 		 var plan = $(xml).find("haupt aktion");
+	         console.log(plan);
 		 plan.each(function(){
 			var xml = $(this);
-			function e(name) { return xml.find(name).text() }
-			var klasse = e("klasse")
+			function e(name) { return xml.find(name).text(); }
+			var klasse = e("klasse");
 			console.log(klasse);
 			if (fuerKlasse === undefined || klasse.indexOf(fuerKlasse) != -1) {
 			   var name = lehrer[e("lehrer")] || e("lehrer");
 			   name = abkuerzungen[name] || name;
                            var info = e("info");
 			   for (kuerzel in abkuerzungen) {
-  			      info = info.replace(kuerzel, abkuerzungen[kuerzel])
+  			      info = info.replace(kuerzel, abkuerzungen[kuerzel]);
 			   }
 			   var zeile = [e("stunde"),e("fach"),e("raum"),name,info];
 			   var zellen = zeile.map(z => $("<td>").text(z));
