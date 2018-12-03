@@ -57,7 +57,7 @@ var abkuerzungen = {
 	 var heute=new Date();
 	 var d=new Date();
 	 d.setDate(heute.getDate()+weiter);
-	 var suffix=""+d.getFullYear()+(d.getMonth()+1)+d.getDate();
+	 var suffix=""+d.getFullYear()+(d.getMonth()+1)+(d.getDate() < 10 ? "0":"") +d.getDate();
      var url = "https://vertretungsplan.bebe-dresden.de/vplan/vdaten/VplanKl"+suffix+".xml";
  console.log(url);
      $.get(url, function(error,x, data) {
@@ -75,7 +75,6 @@ var abkuerzungen = {
 		 
 		 $("#liste").append($("<tr>").append($("<td colspan=\"5\">").text(tag)));
 		 var plan = $(xml).find("haupt aktion");
-	         console.log(plan);
 		 plan.each(function(){
 			var xml = $(this);
 			function e(name) { return xml.find(name).text(); }
