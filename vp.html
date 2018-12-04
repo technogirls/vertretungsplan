@@ -6,8 +6,7 @@
 <!-- https://afeld.github.io/emoji-css/ -->
 <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
 <style type="text/css">
-body, form, select, div, input {
-  font-size:2em;
+body {
   font-family: sans-serif;
 }
 #liste, td, tr, th {
@@ -111,7 +110,7 @@ $(document).ready(function() {
 	 var href = document.location.href
 	 var idx=href.indexOf("=");
 	 if (idx != -1) {
-	   var fuerKlasse = href.substring(idx+1,href.length);
+	   var fuerKlasse = decodeURIComponent(href.substring(idx+1,href.length));
 	   console.log(fuerKlasse)
 	   $("h1").text($("h1").text()+" "+fuerKlasse)
   	   fuerTag(0,fuerKlasse);
