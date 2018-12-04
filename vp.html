@@ -78,7 +78,6 @@ var abkuerzungen = {
 			var xml = $(this);
 			function e(name) { return xml.find(name).text(); }
 			var klasse = e("klasse");
-			console.log(klasse);
 			if (fuerKlasse === undefined || klasse.indexOf(fuerKlasse) != -1) {
 			   var name = lehrer[e("lehrer")] || e("lehrer");
 			   name = abkuerzungen[name] || name;
@@ -102,14 +101,17 @@ $(document).ready(function() {
      function e(name) { return $(xml).find(name).text(); }
      console.log(document.location.href)
 	 var href = document.location.href
-	 var fuerKlasse = href.substring(href.indexOf("=")+1,href.length);
-	 console.log(fuerKlasse)
-	 $("h1").text($("h1").text()+" "+fuerKlasse)
-	 fuerTag(0,fuerKlasse)
-	 fuerTag(1,fuerKlasse)
-	 fuerTag(2,fuerKlasse)
-	 fuerTag(3,fuerKlasse)
-	 fuerTag(4,fuerKlasse)
+	 var idx=href.indexOf("=");
+	 if (idx != -1) {
+	   var fuerKlasse = href.substring(idx+1,href.length);
+	   console.log(fuerKlasse)
+	   $("h1").text($("h1").text()+" "+fuerKlasse)
+  	   fuerTag(0,fuerKlasse);
+	   fuerTag(1,fuerKlasse);
+	   fuerTag(2,fuerKlasse);
+	   fuerTag(3,fuerKlasse);
+	   fuerTag(4,fuerKlasse);
+	 }
 })
 
 </script>
