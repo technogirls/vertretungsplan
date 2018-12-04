@@ -5,7 +5,15 @@
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
 <!-- https://afeld.github.io/emoji-css/ -->
 <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
-
+<style type="text/css">
+body, form, select, div, input {
+  font-size:2em;
+  font-family: sans-serif;
+}
+#liste, td, tr, th {
+   border: 1px solid black;
+} 
+</style>
 
 <script type="text/javascript">
 var abkuerzungen = {
@@ -116,15 +124,6 @@ $(document).ready(function() {
 
 </script>
 
-<style type="text/css">
-body {
-  font-size: 2rem;
-  font-family: "Comic-Sans";
-}
-#liste, td, tr, th {
-  border: 1px solid black;
-}
-</style>
 </head>
 
 <body>
@@ -173,7 +172,7 @@ body {
 		<option>11</option>
 		<option>12</option>
 	</select>
-	<input type="submit>Zeigen</input>
+	<input type="submit" value="Zeigen"/>
 </form>
 	</div>
 </body>
