@@ -71,7 +71,6 @@ var abkuerzungen = {
 		 var abwesendlehrer = e("abwesendl");
 		 var lehrer = e("aenderungl");
 		 var tag = e("titel");
-		 console.log(tag);
 		 
 		 $("#liste").append($("<tr>").append($("<td colspan=\"5\">").text(tag)));
 		 var plan = $(xml).find("haupt aktion");
@@ -89,7 +88,6 @@ var abkuerzungen = {
 			   }
 			   var zeile = [e("stunde"),e("fach"),e("raum"),name,info];
 			   var zellen = zeile.map(z => $("<td>").text(z));
-			   console.log(zellen);
 			   $("#liste").append($("<tr>").append(zellen));   
 			}
 		 });
@@ -140,5 +138,38 @@ body {
 </tr>
 </table>
 
+<form method="get">
+	<select name="klasse">
+		<option>5/1</option>
+		<option>5/2</option>
+		<option>5/3</option>
+		<option>5/4</option>
+		<option>5/5</option>
+		<option>6/1</option>
+		<option>6/2</option>
+		<option>6/3</option>
+		<option>6/4</option>
+		<option>6/5</option>
+		<option>7/1</option>
+		<option>7/2</option>
+		<option>7/3</option>
+		<option>7/4</option>
+		<option>8/1</option>
+		<option>8/2</option>
+		<option>8/3</option>
+		<option>8/4</option>
+		<option>9/1</option>
+		<option>9/2</option>
+		<option>9/3</option>
+		<option>9/4</option>
+		<option>9/5</option>
+		<option>10/1</option>
+		<option>10/2</option>
+		<option>10/3</option>
+		<option>10/4</option>
+		<option>11</option>
+		<option>12</option>
+	</select>
+</form>
 </body>
 </html>
